@@ -1,0 +1,64 @@
+.schedule-title {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.schedule {
+  font-family: system-ui, sans-serif;
+  display: block;
+}
+
+/* Layout: rows with a left time column and 5 day columns */
+.schedule-row,
+.schedule-row--header {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 120px);
+  column-gap: 8px;
+  align-items: center;
+}
+
+.schedule-row--header {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.schedule-header-cell {
+  text-align: center;
+}
+
+.empty-box,
+.schedule-header-empty {
+  width: 80px;
+  height: 1px; /* placeholder to align grid */
+}
+
+.schedule-col-time {
+  text-align: right;
+  padding-right: 8px;
+  font-size: 13px;
+}
+
+.schedule-cell {
+  border: none;
+  border-radius: 12px;
+  background: #f5f5f5;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.schedule-cell:hover {
+  background: #e9f3ff;
+}
+
+.schedule-cell-time {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.schedule-cell-content {
+  font-size: 13px;
+}
