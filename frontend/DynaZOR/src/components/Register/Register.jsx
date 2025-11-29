@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { userApi } from '../../apis/userApi';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -8,32 +9,25 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { addUser } = userApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    console.log({ email, username, name, surname, password })
+    const payload = { email, username, name, surname, password };
+    console.log(payload);
 
     try {
-      // Add your register API call here
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, username, name, surname, password }),
-      });
+      const response = await addUser(payload);
 
       if (!response.ok) {
         throw new Error('Register failed');
       }
-
-      // Handle successful register
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
-      // Redirect to dashboard
+      console.log("User created:", response);
       window.location.href = '/home';
     } catch (err) {
-      setError(err.message || 'Invalid email or password');
+      setError(err.message || 'Failed to register user');
     } finally {
       setIsLoading(false);
     }

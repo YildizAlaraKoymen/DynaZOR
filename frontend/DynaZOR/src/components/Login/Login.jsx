@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
+import { authApi } from '../../apis/authApi';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = authApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    console.log({ email, password })
+    const credentials = { email, password }
+    console.log(credentials)
 
     try {
-      // Add your login API call here
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await login(credentials);
 
       if (!response.ok) {
         throw new Error('Login failed');
       }
-
-      // Handle successful login
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
+      if (data?.token) {
+        localStorage.setItem('token', data.token);
+      }
+      console.log("User logged in:", response);
+      
       // Redirect to dashboard
       window.location.href = '/home';
     } catch (err) {
