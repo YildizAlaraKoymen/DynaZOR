@@ -1,1 +1,2 @@
 C:\Users\burak\OneDrive\Desktop\Metu\CNG495\TermProject\DynaZOR\obj\Any CPU\Debug\DynaZOR.pyproj.CoreCompileInputs.cache
+C:\Users\Emir\Documents\GitHub\DynaZOR\DynaZOR\obj\Any CPU\Debug\DynaZOR.pyproj.CoreCompileInputs.cache

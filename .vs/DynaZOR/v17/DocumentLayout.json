@@ -1,26 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\",
+  "WorkspaceRootPath": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\runserver.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\runserver.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,15 +26,7 @@
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -58,64 +42,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": ".env",
-              "DocumentMoniker": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\.env",
-              "RelativeDocumentMoniker": "DynaZOR\\.env",
-              "ToolTip": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\.env",
-              "RelativeToolTip": "DynaZOR\\.env",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-11-28T19:36:41.572Z",
+              "DocumentIndex": 1,
+              "Title": "views.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py",
+              "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\views.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py",
+              "RelativeToolTip": "DynaZOR\\DynaZOR\\views.py",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-28T12:43:50.79Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "views.py",
-              "DocumentMoniker": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\views.py",
-              "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\views.py",
-              "ToolTip": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\views.py",
-              "RelativeToolTip": "DynaZOR\\DynaZOR\\views.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAALAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2025-11-28T12:43:50.79Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "__init__.py (DynaZOR)",
-              "DocumentMoniker": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\__init__.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py",
               "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\__init__.py",
-              "ToolTip": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\DynaZOR\\__init__.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py",
               "RelativeToolTip": "DynaZOR\\DynaZOR\\__init__.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2025-11-28T12:43:47.368Z"
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-28T12:43:47.368Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "requirements.txt",
-              "DocumentMoniker": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\requirements.txt",
-              "RelativeDocumentMoniker": "DynaZOR\\requirements.txt",
-              "ToolTip": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\requirements.txt",
-              "RelativeToolTip": "DynaZOR\\requirements.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-11-28T12:43:43.566Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "runserver.py",
-              "DocumentMoniker": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\runserver.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py",
               "RelativeDocumentMoniker": "DynaZOR\\runserver.py",
-              "ToolTip": "C:\\Users\\burak\\OneDrive\\Desktop\\Metu\\CNG495\\TermProject\\DynaZOR\\runserver.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py",
               "RelativeToolTip": "DynaZOR\\runserver.py",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2025-11-25T09:44:04.816Z"
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-11-25T09:44:04.816Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -9,6 +9,7 @@ from flask_cors import CORS
 from DynaZOR import app
 from dotenv import load_dotenv
 import os
+import secrets
 from os import environ
 
 load_dotenv()
@@ -22,7 +23,8 @@ def login():
 
     row = db.checkUserLogin(email,password)
     if row:
-        return jsonify({"success": True, "message": "Login Successful"})
+        token = secrets.token_hex(32)
+        return jsonify({"success": True, "token": token, "message": "Login Successful"})
     else:
         return jsonify({"success": False, "message": "Login Failed"})
 

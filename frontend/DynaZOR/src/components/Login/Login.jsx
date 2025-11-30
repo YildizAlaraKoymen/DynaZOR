@@ -21,7 +21,7 @@ export default function Login() {
 
       if (data?.token) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/home";
+        window.location.href = "/schedule";
       }
     } catch (err) {
       setError(err.message || "Invalid email or password");

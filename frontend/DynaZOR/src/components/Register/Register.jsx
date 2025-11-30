@@ -25,7 +25,7 @@ export default function Register() {
 
       console.log("User created:", data);
 
-      window.location.href = "/home";
+      window.location.href = "/schedule";
     } catch (err) {
       setError(err.message || "Failed to register user");
     } finally {
