@@ -1,5 +1,5 @@
 import { getAxiosInstance } from "./Axios";
-import { ENDPOINTS } from "./endpointConstant";
+import { ENDPOINTS } from "./enpointConstants";
 
 const axios = getAxiosInstance();
 
