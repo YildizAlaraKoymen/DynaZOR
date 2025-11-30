@@ -1,39 +1,57 @@
-import ScheduleCell from './ScheduleCell'
+import ScheduleCell from "./ScheduleCell";
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
-const times = ["08:00", "08:45", "09:30", "10:15", "11:00", "11:45", 
-               "12:30", "13:15", "14:00", "14:45", "15:30", "16:15", 
-               "17:00", "17:45"]
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const times = [
+  "08:00", "08:45", "09:30", "10:15", "11:00", "11:45",
+  "12:30", "13:15", "14:00", "14:45", "15:30", "16:15",
+  "17:00", "17:45"
+];
 
 export default function ScheduleTable({ data, onCellClick }) {
-  return(
-    <div className='schedule-wrapper'>
-      <div className = "schedule">
-          <div className = "empty-box"/>
-          <div className="schedule-row schedule-row--header">
-            <div className="schedule-header-empty" />
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full table-fixed border-separate border-spacing-0">
+        
+        {/* Header Row */}
+        <thead>
+          <tr>
+            <th className="w-24"></th>
             {days.map((day) => (
-              <div key={day} className="schedule-header-cell">
+              <th
+                key={day}
+                className="text-center py-3 text-lg font-semibold text-gray-600 border-b"
+              >
                 {day}
-              </div>
+              </th>
             ))}
-          </div>
+          </tr>
+        </thead>
+
+        {/* Schedule Rows */}
+        <tbody>
           {times.map((time) => (
-            <div key = {time} className="schedule-row">
-              <div className = "schedule-col-time">{time}</div>
+            <tr key={time} className="h-20">
+              {/* Time column */}
+              <td className="text-right pr-4 text-gray-500 font-medium text-md align-middle border-r">
+                {time}
+              </td>
+
+              {/* Day columns */}
               {days.map((day) => (
-              <ScheduleCell
-                key = {`${day}-${time}`}
-                time = {time}
-                day = {day}
-                item = {data?.[day]?.[time]}
-                onClick = {onCellClick}
-              />
-            ))}
-            </div>
+                <td key={`${day}-${time}`} className="p-2">
+                  <ScheduleCell
+                    time={time}
+                    day={day}
+                    item={data?.[day]?.[time]}
+                    onClick={onCellClick}
+                  />
+                </td>
+              ))}
+            </tr>
           ))}
-        </div>
+        </tbody>
+
+      </table>
     </div>
-  
-  )
+  );
 }

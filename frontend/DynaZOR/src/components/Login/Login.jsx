@@ -1,70 +1,135 @@
-import React, { useState } from 'react';
-import { authApi } from '../../apis/authApi';
+import React, { useState } from "react";
+import { authApi } from "../../apis/authApi";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const { login } = authApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
-    const credentials = { email, password }
-    console.log(credentials)
 
     try {
-      const response = await login(credentials);
+      const credentials = { email, password };
+      console.log(credentials)
+      const data = await login(credentials);
 
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
       if (data?.token) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
+        window.location.href = "/home";
       }
-      console.log("User logged in:", response);
-      
-      // Redirect to dashboard
-      window.location.href = '/home';
     } catch (err) {
-      setError(err.message || 'Invalid email or password');
+      setError(err.message || "Invalid email or password");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h1 className="auth-title">Login</h1>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      {/* Login box */}
+      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
+        
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Welcome Back
+        </h1>
+        <p className="text-center text-gray-500 mb-8">
+          Please sign in to continue
+        </p>
+
+        {/* Error */}
+        {error && (
+          <div className="bg-red-100 text-red-700 p-3 rounded-md text-center mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          {/* Email */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Email
+            </label>
             <input
-              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="
+                w-full 
+                p-3 
+                border border-gray-300 
+                rounded-lg 
+                focus:outline-none 
+                focus:ring-2 
+                focus:ring-indigo-400 
+                text-gray-800
+              "
+              placeholder="you@example.com"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+
+          {/* Password */}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Password
+            </label>
             <input
-              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="
+                w-full 
+                p-3 
+                border border-gray-300 
+                rounded-lg 
+                focus:outline-none 
+                focus:ring-2 
+                focus:ring-indigo-400 
+                text-gray-800
+              "
+              placeholder="••••••••"
             />
           </div>
-          <button type="submit" className="auth-button" disabled={isLoading}>
-            {isLoading ? 'Logging in...' : 'Login'}
+
+          {/* Button */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="
+              w-full 
+              py-3 
+              bg-indigo-600 
+              hover:bg-indigo-700 
+              text-white 
+              font-semibold 
+              rounded-lg 
+              text-lg 
+              transition 
+              active:scale-[0.98]
+              disabled:opacity-50
+            "
+          >
+            {isLoading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+
+        {/* Footer */}
+        <p className="text-center text-gray-500 text-sm mt-6">
+          Don’t have an account?{" "}
+          <a href="/register" className="text-indigo-600 hover:underline">
+            Register
+          </a>
+        </p>
       </div>
     </div>
   );
