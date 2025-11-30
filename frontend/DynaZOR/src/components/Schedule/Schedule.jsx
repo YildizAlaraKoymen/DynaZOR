@@ -7,32 +7,6 @@ export default function Schedule() {
   const [loading, setLoading] = useState(true);
   const { getScheduleList } = scheduleApi();
 
-    const mockSchedule = {
-    Mon: {
-      "08:00": { label: "Math" },
-      "09:30": { label: "Physics" },
-      "14:00": { label: "Project" },
-    },
-    Tue: {
-      "10:15": { label: "Algorithms" },
-      "11:45": { label: "English" },
-    },
-    Wed: {
-      "08:45": { label: "Lab" },
-      "15:30": { label: "Elective" },
-    },
-    Thu: {
-      "09:30": { label: "Data Structures" },
-      "17:00": { label: "Seminar" },
-    },
-    Fri: {
-      "08:00": { label: "Math" },
-      "12:30": { label: "Free Study" },
-      "14:45": { label: "Sports" },
-    },
-  };
-
-
   useEffect(() => {
     const loadSchedule = async () => {
       try {
