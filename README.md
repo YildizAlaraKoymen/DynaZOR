@@ -53,4 +53,15 @@ Weekly Schedule view with clickable schedule cells:
 
 <img width="2358" height="1333" alt="image" src="https://github.com/user-attachments/assets/1786fe24-1fdf-4d4d-af5a-ac7c1fa431d2" />
 
+Choosing hours:
+<img width="1232" height="814" alt="resim" src="https://github.com/user-attachments/assets/180988fc-9196-4199-aec7-4c79ae21362c" />
+
+Backend of the DynaZOR
+This repository contains the backend implementation of the DynaZOR Scheduling System in the DynaZOR (backend and frontend merged for testing) and BackendTemp (for future backend operations) folders of the repository, developed as part of the CNG 495 Capstone Project (Fall 2025).
+
+The backend is built using Python and Flask micro framework, on Visual Studio.
+Its main purpose is to maintain the data in the Microsoft SQL Server cloud database that is on the Amazon RDS cloud service, recieve and process the request of the frontend (such as login info, or registeration process) and basically handle the communication between the frontend and the cloud database without any problems.
+
 More features will be added as the project progresses.
+
+
