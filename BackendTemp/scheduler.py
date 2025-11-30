@@ -45,17 +45,13 @@ class User:
         hour, minute = map(int, time_str.split(":"))
         db.freeSlotDB(self.id, date_str, hour, minute)
 
-    # ------------------------------
-    # Print schedule
-    # ------------------------------
-    def showSchedule(self):
-        print("\n=== SQL SERVER SCHEDULE ===")
 
+    def showSchedule(self): # For test purposes
         for date, slots in db.getSchedule(self.id):
             print(date)
             for hour, minute, available in slots:
                 label = f"{hour:02d}:{minute:02d}"
-                status = "Available" if available else "Busy"
+                status = "Not booked" if available else "Booked/Unavalible"
                 print(f"   {label} - {status}")
 
-        print("==========================\n")
+        print("---------------------------\n")
