@@ -10,10 +10,5 @@ export const userApi = () => {
     return response.data;
   };
 
-  const addUser = async (user) => {
-    const response = await axios.post(ENDPOINTS.USER_ADD, user);
-    return response.data;
-  };
-
-  return { getUserList, addUser };
+  return { getUserList };
 };

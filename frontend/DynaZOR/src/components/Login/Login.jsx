@@ -4,27 +4,32 @@ import { authApi } from "../../apis/authApi";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = authApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage(null);
     setIsLoading(true);
 
     try {
       const credentials = { email, password };
       console.log(credentials)
-      const data = await login(credentials);
 
-      if (data?.token) {
-        localStorage.setItem("token", data.token);
+      const result = await login(credentials);
+      setMessage([result.message, "success"]);
+      setTimeout(() => {
         window.location.href = "/schedule";
-      }
+      }, 1000);
+
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      if (err.response?.status == 404) {
+        setMessage(["Invalid email or password", "error"]);
+      } else {
+        setMessage([err.message, "error"]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -44,11 +49,17 @@ export default function Login() {
         </p>
 
         {/* Error */}
-        {error && (
+        {message && message[1] == "error" && (
           <div className="bg-red-100 text-red-700 p-3 rounded-md text-center mb-4 text-sm">
-            {error}
+            {message[0]}
           </div>
         )}
+        {/* Success */}
+        {message && message[1] == "success" && (
+          <div className="bg-green-100 text-green-700 p-3 rounded-md text-center mb-4 text-sm">
+            {message[0]}
+          </div>
+        )}        
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">

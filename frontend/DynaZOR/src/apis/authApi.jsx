@@ -7,10 +7,16 @@ export const authApi = () => {
 
   // LOGIN
   const login = async (credentials) => {
-    // credentials = { email, password } 
     const response = await axios.post(ENDPOINTS.AUTH_LOGIN, credentials);
-    return response.data; // return token + user data
+    return response.data; 
   };
 
-  return { login };
+  // REGISTER
+  const register = async (credentials) => {
+    const response = await axios.post(ENDPOINTS.AUTH_REGISTER, credentials);
+    return response.data; 
+  };
+
+
+  return { login, register };
 };

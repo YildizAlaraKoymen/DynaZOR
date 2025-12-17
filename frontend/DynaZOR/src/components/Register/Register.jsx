@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userApi } from "../../apis/userApi";
+import { authApi } from "../../apis/authApi";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -7,27 +7,32 @@ export default function Register() {
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { addUser } = userApi();
+  const { register } = authApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage(null);
     setIsLoading(true);
 
-    const payload = { email, name, surname, username, password };
-    console.log("Register payload:", payload);
+    const credentials = { email, name, surname, username, password };
 
     try {
-      const data = await addUser(payload);
-
-      console.log("User created:", data);
-
-      window.location.href = "/schedule";
+      console.log(credentials)
+      const data = await register(credentials);
+      setMessage([data.message, "success"]);
+      console.log(data.message)
+      setTimeout(() => {
+        window.location.href = "/schedule";
+      }, 1000);
     } catch (err) {
-      setError(err.message || "Failed to register user");
+      if (err.response?.status == 409){
+        setMessage(["User already exists with this email or username", "error"]);
+      } else {
+        setMessage([err.message ||"Failed to register user", "error"]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -46,11 +51,17 @@ export default function Register() {
         </p>
 
         {/* Error */}
-        {error && (
+        {message && message[1] == "error" && (
           <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4 text-center text-sm">
-            {error}
+            {message[0]}
           </div>
         )}
+        {/* Success */}
+        {message && message[1] == "success" && (
+          <div className="bg-green-100 text-green-700 p-3 rounded-md text-center mb-4 text-sm">
+            {message[0]}
+          </div>
+        )}   
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
