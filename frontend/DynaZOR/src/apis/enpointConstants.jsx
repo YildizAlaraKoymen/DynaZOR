@@ -1,15 +1,13 @@
+const BASE_URL = "http://localhost:5555";
 const BASE_ENDPOINT = {
   USERS: "/api/user",
   SCHEDULES: "/api/schedule",
-  AUTH: "/api/auth"
-  // Add other endpoints here
+  AUTH: "/api/auth",
 };
 
 export const ENDPOINTS = {
-  USER_LIST: `${BASE_ENDPOINT.USERS}/list`,
-  SCHEDULE_LIST: `${BASE_ENDPOINT.SCHEDULES}/list`,
-  SCHEDULE_ADD: `${BASE_ENDPOINT.SCHEDULES}/add`,
-  AUTH_LOGIN: `${BASE_ENDPOINT.AUTH}/login`,
-  AUTH_REGISTER: `${BASE_ENDPOINT.AUTH}/register`,
-  // Add other specific endpoints here
+  SCHEDULE_GET: `${BASE_URL}${BASE_ENDPOINT.SCHEDULES}`,
+  SCHEDULE_CREATE: `${BASE_URL}${BASE_ENDPOINT.SCHEDULES}`,
+  AUTH_LOGIN: `${BASE_URL}${BASE_ENDPOINT.AUTH}/login`,
+  AUTH_REGISTER: `${BASE_URL}${BASE_ENDPOINT.AUTH}/register`,
 };

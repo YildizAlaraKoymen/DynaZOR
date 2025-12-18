@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { authApi } from "../../apis/authApi";
+import { scheduleApi } from "../../apis/scheduleApi";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -10,7 +12,9 @@ export default function Register() {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
   const { register } = authApi();
+  const { createSchedule } = scheduleApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,18 +24,23 @@ export default function Register() {
     const credentials = { email, name, surname, username, password };
 
     try {
-      console.log(credentials)
-      const data = await register(credentials);
-      setMessage([data.message, "success"]);
-      console.log(data.message)
+      const res = await register(credentials);
+      const userID = res?.userID;
+      if (!userID) throw new Error("Missing userID from register");
+
+      setMessage([res.message, "success"]);
+
+      const today = new Date().toISOString().split("T")[0];
+      await createSchedule({ userID, scheduleDate: today });
+
       setTimeout(() => {
-        window.location.href = "/schedule";
+        navigate("/schedule", { state: { userID } });
       }, 1000);
     } catch (err) {
-      if (err.response?.status == 409){
+      if (err.response?.status === 409) {
         setMessage(["User already exists with this email or username", "error"]);
       } else {
-        setMessage([err.message ||"Failed to register user", "error"]);
+        setMessage([err.message || "Failed to register user", "error"]);
       }
     } finally {
       setIsLoading(false);

@@ -13,11 +13,11 @@ class Register(Resource):
     """Handle user registration"""
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('email', type=str, required=True, help='Email is required')
-        parser.add_argument('name', type=str, required=True, help='Name is required')
-        parser.add_argument('surname', type=str, required=True, help='Surname is required')
-        parser.add_argument('username', type=str, required=True, help='Username is required')
-        parser.add_argument('password', type=str, required=True, help='Password is required')
+        parser.add_argument('name', type=str, required=True)
+        parser.add_argument('surname', type=str, required=True)
+        parser.add_argument('username', type=str, required=True)
+        parser.add_argument('email', type=str, required=True)
+        parser.add_argument('password', type=str, required=True)
         
         args = parser.parse_args()
         
@@ -28,7 +28,14 @@ class Register(Resource):
         try:
             full_name = f"{args['name']} {args['surname']}"
             db.createUser(full_name, args['username'], args['email'], args['password'])
-            return {'message': 'User registered successfully'}, 201
+            
+            # Get the newly created user's ID
+            userID = db.getUserID(args['username'])
+            
+            return {
+                'message': 'User registered successfully',
+                'userID': userID
+            }, 201
         except Exception as e:
             abort(500, message=str(e))
 
@@ -48,37 +55,52 @@ class Login(Resource):
 
         return {
           'userID': user[0],
-          'name': user[1],
-          'username': user[2],
-          'email': user[3],
           'message': 'Login successful'
         }, 200
 
 
 class Schedule(Resource):
-    """Get user schedule"""
+    """Get or create user schedule"""
     def get(self, user_id):
         try:
             schedule = db.getSchedule(user_id)
-            if not schedule:
-                return {'message': 'No schedule found'}, 404
             
-            # Format schedule for frontend
             formatted_schedule = []
-            for date, timeslots in schedule:
-                formatted_schedule.append({
-                    'date': str(date),
-                    'timeslots': [
-                        {
-                            'hour': ts[0],
-                            'minute': ts[1],
-                            'available': ts[2]
-                        }
-                        for ts in timeslots
-                    ]
-                })
-            
+            if schedule:
+                for date, timeslots in schedule:
+                    formatted_schedule.append({
+                        'date': str(date),
+                        'timeslots': [
+                            {'hour': ts[0], 'minute': ts[1], 'available': ts[2]}
+                            for ts in timeslots
+                        ]
+                    })
+
             return {'schedule': formatted_schedule}, 200
+        except Exception as e:
+            abort(500, message=str(e))
+
+    def post(self, user_id):
+        """
+        Create an empty schedule day for the user.
+        Expects: { "scheduleDate": "YYYY-MM-DD" }
+        """
+        parser = reqparse.RequestParser()
+        parser.add_argument('scheduleDate', type=str, required=True, help='scheduleDate is required (YYYY-MM-DD)')
+        args = parser.parse_args()
+
+        try:
+            # Parse and validate date
+            schedule_date = datetime.strptime(args['scheduleDate'], '%Y-%m-%d').date()
+        except ValueError:
+            abort(400, message="scheduleDate must be in format YYYY-MM-DD")
+
+        try:
+            schedule_id = db.createSchedule(user_id, schedule_date)
+            return {
+                'scheduleID': schedule_id,
+                'message': 'Schedule created'
+            }, 201
         except Exception as e:
             abort(500, message=str(e))
 

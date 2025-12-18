@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { authApi } from "../../apis/authApi";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = authApi();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,14 +20,15 @@ export default function Login() {
       const credentials = { email, password };
       console.log(credentials)
 
-      const result = await login(credentials);
-      setMessage([result.message, "success"]);
+      const res = await login(credentials);
+      const userID = res?.userID;
+      setMessage([res.message, "success"]);
       setTimeout(() => {
-        window.location.href = "/schedule";
+        navigate("/schedule", { state: { userID } });
       }, 1000);
 
     } catch (err) {
-      if (err.response?.status == 404) {
+      if (err.response?.status == 401) {
         setMessage(["Invalid email or password", "error"]);
       } else {
         setMessage([err.message, "error"]);

@@ -78,6 +78,16 @@ def deletePastDays(userID, today: date):
     """, (userID, today))
     conn.commit()
 
+def createSchedule(userID, scheduleDate):
+    cursor.execute("""
+        INSERT INTO userSchedule(userID, scheduleDate)
+        OUTPUT INSERTED.scheduleID
+        VALUES (?, ?)
+    """, (userID, scheduleDate))
+    
+    scheduleID = cursor.fetchone()[0]
+    conn.commit()
+    return scheduleID
 
 def getLastScheduleDay(userID):
     cursor.execute("""
@@ -106,8 +116,6 @@ def insertScheduleDay(userID, scheduleDate):
     user_id = cursor.fetchone()[0]
     conn.commit()
     return user_id
-
-
 
 def insertTimeSlot(scheduleID, hour, minute, available):
     cursor.execute("""
