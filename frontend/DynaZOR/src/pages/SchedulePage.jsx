@@ -6,6 +6,8 @@ const SchedulePage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const userID = state?.userID;
+  const viewerID = localStorage.getItem("viewerID");
+  const viewerRole = localStorage.getItem("viewerRole") || "user";
 
   useEffect(() => {
     if (!userID) {
@@ -13,7 +15,7 @@ const SchedulePage = () => {
     }
   }, [])
 
-  return <Schedule userID = {userID}/>
+  return <Schedule userID={userID} viewerID={viewerID} viewerRole={viewerRole} />
 }
 
 export default SchedulePage

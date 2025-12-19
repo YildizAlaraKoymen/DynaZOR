@@ -104,9 +104,8 @@ class Schedule(Resource):
         except Exception as e:
             abort(500, message=str(e))
 
-
 class TimeSlot(Resource):
-    """Mark a timeslot as available/unavailable"""
+    """Toggle a timeslot between available/unavailable"""
     def post(self, user_id):
         parser = reqparse.RequestParser()
         parser.add_argument('date', type=str, required=True, help='Date is required (YYYY-MM-DD)')
@@ -116,7 +115,49 @@ class TimeSlot(Resource):
         args = parser.parse_args()
         
         try:
-            db.freeSlotDB(user_id, args['date'], args['hour'], args['minute'])
-            return {'message': 'Timeslot updated successfully'}, 200
+            db.toggleSlotDB(user_id, args['date'], args['hour'], args['minute'])
+            return {'message': 'Timeslot toggled successfully'}, 200
         except Exception as e:
             abort(500, message=str(e))
+
+class User(Resource):
+    def get(self, username):
+        try:
+          user_id = db.getUserID(username)
+          if user_id is None:
+                abort(404, message="User not found")
+          return {'userID': user_id}, 200
+        except Exception as e:
+            abort(500, message=str(e))
+
+
+class Appointment(Resource):
+    """Submit up to 3 timeslot selections for a user (viewer)"""
+    #CHANGE THE ALGORITHM AS NEEDED
+    def post(self, user_id):
+        payload = request.get_json(force=True) or {}
+        selections = payload.get('selections', [])
+
+        if not isinstance(selections, list) or not selections:
+            abort(400, message="selections must be a non-empty array")
+        if len(selections) > 3:
+            abort(400, message="You can select at most 3 timeslots")
+
+        booked = []
+        for sel in selections:
+            try:
+                date = sel.get('date')
+                hour = int(sel.get('hour'))
+                minute = int(sel.get('minute'))
+            except Exception:
+                abort(400, message="Each selection must include date (YYYY-MM-DD), hour, minute")
+
+            # Book the slot (viewer requests translate to booking for simplicity)
+            try:
+                #ADD THE BOOKING HERE
+                #db.bookSlotDB(user_id, date, hour, minute)
+                booked.append({'date': date, 'hour': hour, 'minute': minute})
+            except Exception as e:
+                abort(500, message=str(e))
+
+        return { 'message': 'Appointment submitted', 'booked': booked }, 200

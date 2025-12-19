@@ -9,7 +9,7 @@ const times = [
 
 const timeLabel = (h, m) => `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 
-export default function ScheduleTable({ schedule_data = [], onCellClick }) {
+export default function ScheduleTable({ schedule_data = [], onCellClick, isOwner, selectedSlots = []}) {
   const { days, grid } = useMemo(() => {
     const dayList = schedule_data.map((d) => d.date);
     const map = {};
@@ -32,10 +32,14 @@ export default function ScheduleTable({ schedule_data = [], onCellClick }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
         <h3 className="mt-4 text-xl font-semibold text-gray-600">No Schedule Found</h3>
-        <p className="mt-2 text-gray-500">Start by adding your first time slot</p>
-        <button className="mt-6 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition">
-          Create Schedule
-        </button>
+        <p className="mt-2 text-gray-500">
+          {isOwner ? "Start by adding your first time slot" : "Schedule is empty"}
+        </p>
+        {isOwner && (
+          <button className="mt-6 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition">
+            Create Schedule
+          </button>
+        )}
       </div>
     );
   }
@@ -83,6 +87,8 @@ export default function ScheduleTable({ schedule_data = [], onCellClick }) {
                     day={day}
                     item={grid[day]?.[time]}
                     onClick={onCellClick}
+                    isOwner={isOwner}
+                    selected={selectedSlots.some((s) => s.key === `${day}|${time}`)}
                   />
                 </td>
               ))}

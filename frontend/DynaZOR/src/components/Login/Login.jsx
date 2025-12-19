@@ -22,6 +22,10 @@ export default function Login() {
 
       const res = await login(credentials);
       const userID = res?.userID;
+      if (userID) {
+        localStorage.setItem("viewerID", String(userID));
+        localStorage.setItem("viewerRole", "owner");
+      }
       setMessage([res.message, "success"]);
       setTimeout(() => {
         navigate("/schedule", { state: { userID } });

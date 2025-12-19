@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { authApi } from "../../apis/authApi";
-import { scheduleApi } from "../../apis/scheduleApi";
+import { userApi } from "../../apis/userApi";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -14,7 +14,7 @@ export default function Register() {
 
   const navigate = useNavigate();
   const { register } = authApi();
-  const { createSchedule } = scheduleApi();
+  const { createSchedule } = userApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +32,10 @@ export default function Register() {
 
       const today = new Date().toISOString().split("T")[0];
       await createSchedule({ userID, scheduleDate: today });
+
+      // Persist viewer identity
+      localStorage.setItem("viewerID", String(userID));
+      localStorage.setItem("viewerRole", "owner");
 
       setTimeout(() => {
         navigate("/schedule", { state: { userID } });
