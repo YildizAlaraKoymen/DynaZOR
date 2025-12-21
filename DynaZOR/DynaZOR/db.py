@@ -5,36 +5,15 @@ import os
 from datetime import date
 
 load_dotenv()
-_conn = None
-
-def get_conn():
-    global _conn
-    if _conn is not None:
-        return _conn
-
-    # If driver not present, fail with a clear message (instead of crashing import)
-    try:
-        _conn = pyodbc.connect(
-            "DRIVER={ODBC Driver 17 for SQL Server};"
-            f"SERVER={os.getenv('SQLSERVER_HOST')};"
-            f"DATABASE={os.getenv('SQLSERVER_DB')};"
-            f"UID={os.getenv('SQLSERVER_USER')};"
-            f"PWD={os.getenv('SQLSERVER_PASS')}"
-        )
-        return _conn
-    except pyodbc.Error as e:
-        # raise a controlled error only when DB is actually needed
-        raise RuntimeError(
-            "Database driver/connection not available on this host. "
-            "SQL Server ODBC Driver 17 is missing."
-        ) from e
-
-def get_cursor():
-    return get_conn().cursor()
-
-# Global connection/cursor helpers for legacy calls below
-conn = get_conn()
+conn = pyodbc.connect(
+        f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+        f"SERVER={os.getenv('SQLSERVER_HOST')};"
+        f"DATABASE={os.getenv('SQLSERVER_DB')};"
+        f"UID={os.getenv('SQLSERVER_USER')};"
+        f"PWD={os.getenv('SQLSERVER_PASS')}",
+)
 cursor = conn.cursor()
+
 
 def createTables():
     cursor.execute("IF OBJECT_ID('timeslots','U') IS NOT NULL DROP TABLE timeslots;")
