@@ -175,7 +175,7 @@ class Appointment(Resource):
 
             # Book the slot (viewer requests translate to booking for simplicity)
             try:
-                #ADD THE BOOKING HERE
+                #TODO: ADD THE BOOKING ALGORITHM HERE
                 #db.bookSlotDB(user_id, date, hour, minute)
                 booked.append({'date': date, 'hour': hour, 'minute': minute})
             except Exception as e:
