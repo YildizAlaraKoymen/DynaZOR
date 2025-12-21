@@ -16,6 +16,7 @@ cursor = conn.cursor()
 
 
 def createTables():
+    cursor.execute("IF OBJECT_ID('priorityQueue','U') IS NOT NULL DROP TABLE priorityQueue;")
     cursor.execute("IF OBJECT_ID('timeslots','U') IS NOT NULL DROP TABLE timeslots;")
     cursor.execute("IF OBJECT_ID('userSchedule','U') IS NOT NULL DROP TABLE userSchedule;")
     cursor.execute("IF OBJECT_ID('users','U') IS NOT NULL DROP TABLE users;")
@@ -41,10 +42,22 @@ def createTables():
     cursor.execute("""
     CREATE TABLE timeslots (
         timeSlotID INT IDENTITY(1,1) PRIMARY KEY,
-        scheduleID INT FOREIGN KEY REFERENCES userSchedule(scheduleID),
-        hour INT,
-        minute INT,
-        available INT
+        scheduleID INT NOT NULL FOREIGN KEY REFERENCES userSchedule(scheduleID),
+        hour INT CHECK (hour BETWEEN 0 AND 23),   
+        minute INT CHECK (minute BETWEEN 0 AND 59), 
+        available BIT DEFAULT 1,
+        bookedByUserID INT FOREIGN KEY REFERENCES users(userID)
+    );
+    """)
+
+    cursor.execute("""
+    CREATE TABLE priorityQueue (
+        timeSlotID INT NOT NULL,
+        userID INT NOT NULL,
+        priorityNo INT NOT NULL, 
+        PRIMARY KEY (timeSlotID, userID),
+        FOREIGN KEY (timeSlotID) REFERENCES timeslots(timeSlotID),
+        FOREIGN KEY (userID) REFERENCES users(userID)
     );
     """)
     conn.commit()
@@ -166,7 +179,7 @@ def getSchedule(userID):
     return [{
         'date': str(scheduleDate),
         'timeslots': [
-            {'hour': ts[0], 'minute': ts[1], 'available': ts[2]}
+            {'hour': ts[0], 'minute': ts[1], 'available': int(ts[2])}
             for ts in timeSlots
         ]
     }]
@@ -188,4 +201,107 @@ def toggleSlotDB(userID, date, hour, minute):
     conn.commit()
     return cursor.rowcount
 
+
+def getWaitList(timeslot_id):
+    cursor.execute("""
+        SELECT 
+            pq.priorityNo,
+            u.userID,
+            u.name,
+            u.email
+        FROM priorityQueue pq
+        JOIN users u ON pq.userID = u.userID
+        WHERE pq.timeSlotID = ?
+        ORDER BY pq.priorityNo ASC
+    """, (timeslot_id,))
+
+    results = []
+    for row in cursor.fetchall():
+        results.append({
+            "priority": row[0],
+            "user_id": row[1],
+            "name": row[2],
+            "email": row[3]
+        })
+    return results
+
+def addWaitList(timeslot_id, user_id):
+    cursor.execute("""
+        SELECT MAX(priorityNo) FROM priorityQueue WHERE timeSlotID = ?
+    """, (timeslot_id,))
+    row = cursor.fetchone()
+    current_max = row[0] if row[0] is not None else 0
+    new_priority = current_max + 1
+
+    cursor.execute("""
+        INSERT INTO priorityQueue (timeSlotID, userID, priorityNo)
+        VALUES (?, ?, ?)
+    """, (timeslot_id, user_id, new_priority))
+    conn.commit()
+
+def freeSlotDB(timeSlotID):
+    cursor.execute("""
+        UPDATE timeslots
+        SET available = 1, bookedByUserID = NULL
+        WHERE timeSlotID = ?
+    """, (timeSlotID,))
+    conn.commit()
+    return cursor.rowcount
+
+def addAppointmentDB(timeslotID, userID):
+    cursor.execute("""
+        UPDATE timeslots 
+        SET available = 0, bookedByUserID = ?
+        WHERE timeSlotID = ?
+    """, (userID, timeslotID))
+    conn.commit()
+
+def removeFromWaitlist(timeslot_id, user_id):
+    cursor.execute("""
+        DELETE FROM priorityQueue 
+        WHERE timeSlotID = ? AND userID = ?
+    """, (timeslot_id, user_id))
+    conn.commit()
+
+def isBooked(timeslotID):
+    cursor.execute("""
+        SELECT available 
+        FROM timeslots 
+        WHERE timeSlotID = ?
+    """, (timeslotID,))
+    row = cursor.fetchone()
+    return row[0] == 0 
+
+def getTimeslotID(user_id, date_str, hour, minute):
+    cursor.execute("""
+        SELECT ts.timeSlotID 
+        FROM timeslots ts
+        JOIN userSchedule us ON ts.scheduleID = us.scheduleID
+        WHERE us.userID = ? 
+          AND us.scheduleDate = ? 
+          AND ts.hour = ? 
+          AND ts.minute = ?
+    """, (user_id, date_str, hour, minute))
+    row = cursor.fetchone()
+    return row[0]
+
+def schedulerAlgorithm(userID,dateStr,hour,minute,appointingUserID):
+    timeslotID =  getTimeslotID(userID, dateStr, hour, minute)
+    if isBooked(timeslotID):
+        addWaitList(timeslotID, appointingUserID)
+    else:
+        addAppointmentDB(timeslotID, appointingUserID)
+
+def reSchedulerAlgorithm(userID, dateStr, timeStr):
+    hour, minute = map(int, timeStr.split(":"))
+    timeslotID = getTimeslotID(userID, dateStr, hour, minute)
+    waitlist = getWaitList(timeslotID)
+
+    if not waitlist:
+        freeSlotDB(timeslotID)
+    else:
+        priorityUser = waitlist[0] # The one with lowest priorityNo
+        priorityUserID = priorityUser['user_id']
+        addAppointmentDB(timeslotID, priorityUserID)
+        removeFromWaitlist(timeslotID, priorityUserID)
 

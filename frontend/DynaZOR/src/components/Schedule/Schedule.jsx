@@ -150,11 +150,12 @@ export default function Schedule({ userID }) {
                   setMessage(["Select at least one timeslot", "error"]);
                   return;
                 }
+				const currentUserID = parseInt(localStorage.getItem("userID"));
                 try {
                   setLoading(true);
                   // Send selections to backend (requires userApi method)
                   const api = userApi();
-                  await api.submitAppointment(userID, selectedSlots.map(({ date, hour, minute }) => ({ date, hour, minute })));
+                  await api.submitAppointment(userID, {bookerID : currentUserID, selections: selectedSlots.map(({ date, hour, minute }) => ({ date, hour, minute }))});
                   setMessage(["Appointment request submitted", "success"]);
                   setSelectedSlots([]);
                   const data = await getSchedule(userID);

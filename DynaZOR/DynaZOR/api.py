@@ -154,11 +154,13 @@ class UserByID(Resource):
 
 class Appointment(Resource):
     """Submit up to 3 timeslot selections for a user (viewer)"""
-    #CHANGE THE ALGORITHM AS NEEDED
     def post(self, user_id):
         payload = request.get_json(force=True) or {}
         selections = payload.get('selections', [])
+        booker_id = payload.get("bookerID")
 
+        if not booker_id:
+            abort(400, message="bookerID is required")
         if not isinstance(selections, list) or not selections:
             abort(400, message="selections must be a non-empty array")
         if len(selections) > 3:
@@ -175,8 +177,7 @@ class Appointment(Resource):
 
             # Book the slot (viewer requests translate to booking for simplicity)
             try:
-                #TODO: ADD THE BOOKING ALGORITHM HERE
-                #db.bookSlotDB(user_id, date, hour, minute)
+                db.schedulerAlgorithm(user_id, date, hour, minute, booker_id)
                 booked.append({'date': date, 'hour': hour, 'minute': minute})
             except Exception as e:
                 abort(500, message=str(e))

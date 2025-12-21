@@ -26,8 +26,8 @@ export const userApi = () => {
       return response.data;
     };
 
-  const submitAppointment = async (userID, selections) => {
-      const response = await axios.post(`${ENDPOINTS.APPOINTMENT_SUBMIT}/${userID}`, { selections });
+  const submitAppointment = async (userID, payload) => {
+      const response = await axios.post(`${ENDPOINTS.APPOINTMENT_SUBMIT}/${userID}`, payload);
       return response.data;
     };
   

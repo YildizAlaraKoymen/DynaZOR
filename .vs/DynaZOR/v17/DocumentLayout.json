@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\runserver.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\api.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\api.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\views.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\db.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\DynaZOR\\db.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|solutionrelative:DynaZOR\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{525DA38A-92D1-4EDC-AD5A-B59B79FDADA2}|DynaZOR\\DynaZOR.pyproj|C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -42,42 +50,66 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "views.py",
-              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py",
-              "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\views.py",
-              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\views.py",
-              "RelativeToolTip": "DynaZOR\\DynaZOR\\views.py",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\app.py",
+              "RelativeDocumentMoniker": "DynaZOR\\app.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\app.py",
+              "RelativeToolTip": "DynaZOR\\app.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-11-28T12:43:50.79Z",
+              "WhenOpened": "2025-12-21T17:39:14.044Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": ".env",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\.env",
+              "RelativeDocumentMoniker": "DynaZOR\\.env",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\.env",
+              "RelativeToolTip": "DynaZOR\\.env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-12-21T15:02:44.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "api.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\api.py",
+              "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\api.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\api.py",
+              "RelativeToolTip": "DynaZOR\\DynaZOR\\api.py",
+              "ViewState": "AgIAAJYAAAAAAAAAAAD4v6AAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-12-21T14:41:55.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "db.py",
+              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\db.py",
+              "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\db.py",
+              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\db.py",
+              "RelativeToolTip": "DynaZOR\\DynaZOR\\db.py",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAD4v7UAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-12-21T14:35:18.369Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "__init__.py (DynaZOR)",
               "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py",
               "RelativeDocumentMoniker": "DynaZOR\\DynaZOR\\__init__.py",
               "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\DynaZOR\\__init__.py",
               "RelativeToolTip": "DynaZOR\\DynaZOR\\__init__.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-11-28T12:43:47.368Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "runserver.py",
-              "DocumentMoniker": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py",
-              "RelativeDocumentMoniker": "DynaZOR\\runserver.py",
-              "ToolTip": "C:\\Users\\Emir\\Documents\\GitHub\\DynaZOR\\DynaZOR\\runserver.py",
-              "RelativeToolTip": "DynaZOR\\runserver.py",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-11-25T09:44:04.816Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T12:43:47.368Z"
             }
           ]
         }
