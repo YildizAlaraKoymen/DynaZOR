@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { authApi } from "../../apis/authApi";
 import { userApi } from "../../apis/userApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState("");
