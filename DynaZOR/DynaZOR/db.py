@@ -21,6 +21,15 @@ def createTables():
     cursor.execute("IF OBJECT_ID('userSchedule','U') IS NOT NULL DROP TABLE userSchedule;")
     cursor.execute("IF OBJECT_ID('appointmentStats','U') IS NOT NULL DROP TABLE appointmentStats;")
     cursor.execute("IF OBJECT_ID('users','U') IS NOT NULL DROP TABLE users;")
+    cursor.execute("IF OBJECT_ID('admin','U') IS NOT NULL DROP TABLE admin;")
+
+    cursor.execute("""
+    CREATE TABLE admin (
+        adminID INT IDENTITY(1,1) PRIMARY KEY,
+        username NVARCHAR(255) UNIQUE,
+        password NVARCHAR(255)
+    );
+    """)
 
     cursor.execute("""
     CREATE TABLE users (
@@ -74,6 +83,9 @@ def createTables():
         FOREIGN KEY (bookerUserID) REFERENCES users(userID)
     );
     """)
+    
+    # Create default admin user
+    cursor.execute("INSERT INTO admin(username, password) VALUES(?, ?)", ('admin', 'admin123'))
     conn.commit()
 
 
@@ -429,3 +441,87 @@ def checkOwnAvailability(user_id, hour, minute,date):
     row = cursor.fetchone()
     print (row)
     return row[0]
+
+def deleteUser(user_id):
+    """Delete a user and all related data"""
+    try:
+        # Delete from priorityQueue first (foreign key constraints)
+        cursor.execute("DELETE FROM priorityQueue WHERE userID = ?", (user_id,))
+        # Delete appointments where user is booker
+        cursor.execute("DELETE FROM timeslots WHERE bookedByUserID = ?", (user_id,))
+        # Delete user's schedule and timeslots
+        cursor.execute("DELETE FROM timeslots WHERE scheduleID IN (SELECT scheduleID FROM userSchedule WHERE userID = ?)", (user_id,))
+        cursor.execute("DELETE FROM userSchedule WHERE userID = ?", (user_id,))
+        # Delete appointment stats
+        cursor.execute("DELETE FROM appointmentStats WHERE ownerUserID = ? OR bookerUserID = ?", (user_id, user_id))
+        # Delete user
+        cursor.execute("DELETE FROM users WHERE userID = ?", (user_id,))
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error deleting user: {e}")
+        conn.rollback()
+        return False
+
+
+def updateUser(user_id, name=None, username=None, email=None):
+    """Update user information"""
+    try:
+        updates = []
+        params = []
+        
+        if name:
+            updates.append("name = ?")
+            params.append(name)
+        if username:
+            updates.append("username = ?")
+            params.append(username)
+        if email:
+            updates.append("email = ?")
+            params.append(email)
+        
+        if not updates:
+            return True
+            
+        params.append(user_id)
+        query = f"UPDATE users SET {', '.join(updates)} WHERE userID = ?"
+        cursor.execute(query, params)
+        conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error updating user: {e}")
+        conn.rollback()
+        return False
+
+
+def backupDatabase():
+    """Get all database contents for backup"""
+    try:
+        backup_data = {}
+        
+        cursor.execute("SELECT userID, name, username, email, password FROM users")
+        backup_data['users'] = cursor.fetchall()
+        
+        cursor.execute("SELECT scheduleID, userID, scheduleDate FROM userSchedule")
+        backup_data['userSchedule'] = cursor.fetchall()
+        
+        cursor.execute("SELECT timeSlotID, scheduleID, hour, minute, available, bookedByUserID FROM timeslots")
+        backup_data['timeslots'] = cursor.fetchall()
+        
+        cursor.execute("SELECT timeSlotID, userID, priorityNo FROM priorityQueue")
+        backup_data['priorityQueue'] = cursor.fetchall()
+        
+        cursor.execute("SELECT ownerUserID, bookerUserID, hour, minute, bookingCount FROM appointmentStats")
+        backup_data['appointmentStats'] = cursor.fetchall()
+        
+        return backup_data
+    except Exception as e:
+        print(f"Error backing up database: {e}")
+        return None
+
+
+# Admin helper
+def checkAdminLogin(username, password):
+    """Validate admin credentials"""
+    cursor.execute("SELECT adminID, username FROM admin WHERE username=? AND password=?", (username, password))
+    return cursor.fetchone()

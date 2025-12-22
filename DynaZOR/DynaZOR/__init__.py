@@ -5,7 +5,7 @@ The flask application package.
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
-from .api import AdminInitialize, AdminUserList, Analytics, Register, Login, Schedule, TimeSlot, User, UserByID, Appointment
+from .api import AdminInitialize, AdminUserList, Analytics, Register, Login, Schedule, TimeSlot, User, UserByID, Appointment, AdminAuth, AdminInit, AdminReset, AdminView, AdminBackup, AdminModify
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "04KMGIRO4SF4fsrf"
@@ -34,6 +34,12 @@ api.add_resource(TimeSlot, '/api/user/timeslot/<int:user_id>')
 api.add_resource(User, '/api/user/search/<string:username>')
 api.add_resource(UserByID, '/api/user/id/<int:user_id>')
 api.add_resource(Appointment, '/api/user/appointment/<int:user_id>')
+api.add_resource(AdminAuth, '/api/admin/auth')
+api.add_resource(AdminInit, '/api/admin/init')
+api.add_resource(AdminReset, '/api/admin/reset')
+api.add_resource(AdminView, '/api/admin/view')
+api.add_resource(AdminBackup, '/api/admin/backup')
+api.add_resource(AdminModify, '/api/admin/modify')
 #api.add_resource(Analytics, '')
 #api.add_resource(AdminInitialize, '')
 #api.add_resource(AdminUserList, '')

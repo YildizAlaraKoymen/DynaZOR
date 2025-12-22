@@ -4,7 +4,7 @@ Defines all endpoints for user authentication, registration, and schedule manage
 """
 
 from flask_restful import Resource, reqparse, abort
-from flask import request, session
+from flask import request, session, current_app
 from . import db
 from datetime import datetime, timedelta
 import os
@@ -12,7 +12,6 @@ import boto3
 
 TOPIC_ARN = os.getenv('SNS_TOPIC_ARN')
 sns_client = boto3.client("sns",region_name=os.getenv("AWS_REGION"))
-
 
 class Register(Resource):
     """Handle user registration"""
@@ -287,3 +286,162 @@ class AdminUserList(Resource):
 
         except Exception as e:
             abort(500, message=str(e))
+
+
+class AdminAuth(Resource):
+    """Authenticate admin with password"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        args = parser.parse_args()
+        
+        # Check admin credentials in database
+        admin = db.checkAdminLogin('admin', args['password'])
+        
+        if admin:
+            return {'message': 'Admin authenticated successfully'}, 200
+        else:
+            abort(401, message="Invalid admin password")
+
+
+class AdminInit(Resource):
+    """Initialize or reset the database with admin authentication"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        args = parser.parse_args()
+        
+        # Verify admin credentials
+        admin = db.checkAdminLogin('admin', args['password'])
+        if not admin:
+            abort(401, message="Invalid admin password")
+        
+        try:
+            db.createTables()
+            return {'message': 'Database initialized successfully'}, 200
+        except Exception as e:
+            abort(500, message=f"Initialization failed: {str(e)}")
+
+
+class AdminReset(Resource):
+    """Reset the database with admin authentication"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        args = parser.parse_args()
+        
+        # Verify admin credentials
+        admin = db.checkAdminLogin('admin', args['password'])
+        if not admin:
+            abort(401, message="Invalid admin password")
+        
+        try:
+            db.createTables()
+            return {'message': 'Database reset successfully'}, 200
+        except Exception as e:
+            abort(500, message=f"Reset failed: {str(e)}")
+
+
+class AdminView(Resource):
+    """View all users and their information with admin authentication"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        args = parser.parse_args()
+        
+        # Verify admin credentials
+        admin = db.checkAdminLogin('admin', args['password'])
+        if not admin:
+            abort(401, message="Invalid admin password")
+        
+        try:
+            rows = db.getAllUsersInfo()
+            user_list = []
+            for row in rows:
+                user_id = row[0]
+                user_bookings = db.getUserBookings(user_id)
+                user_list.append({
+                    'userID': row[0],
+                    'name': row[1],
+                    'username': row[2],
+                    'email': row[3],
+                    'bookings': user_bookings,
+                    'booking_count': len(user_bookings)
+                })
+            
+            return {
+                'user_count': len(user_list),
+                'user_list': user_list,
+                'message': 'Database view retrieved successfully'
+            }, 200
+        except Exception as e:
+            abort(500, message=f"View failed: {str(e)}")
+
+
+class AdminBackup(Resource):
+    """Backup the database with admin authentication"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        args = parser.parse_args()
+        
+        # Verify admin credentials
+        admin = db.checkAdminLogin('admin', args['password'])
+        if not admin:
+            abort(401, message="Invalid admin password")
+        
+        try:
+            backup_data = db.backupDatabase()
+            if backup_data is None:
+                abort(500, message="Backup failed")
+            
+            return {
+                'message': 'Database backed up successfully',
+                'backup': backup_data
+            }, 200
+        except Exception as e:
+            abort(500, message=f"Backup failed: {str(e)}")
+
+
+class AdminModify(Resource):
+    """Modify user information or delete users with admin authentication"""
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('password', type=str, required=True, help='Password is required')
+        parser.add_argument('action', type=str, required=True, help='Action is required (update, delete)')
+        parser.add_argument('userID', type=int, required=True, help='User ID is required')
+        parser.add_argument('name', type=str)
+        parser.add_argument('username', type=str)
+        parser.add_argument('email', type=str)
+        args = parser.parse_args()
+        
+        # Verify admin credentials
+        admin = db.checkAdminLogin('admin', args['password'])
+        if not admin:
+            abort(401, message="Invalid admin password")
+        
+        try:
+            if args['action'] == 'update':
+                success = db.updateUser(
+                    args['userID'],
+                    name=args.get('name'),
+                    username=args.get('username'),
+                    email=args.get('email')
+                )
+                if success:
+                    return {'message': 'User updated successfully'}, 200
+                else:
+                    abort(500, message="Failed to update user")
+            
+            elif args['action'] == 'delete':
+                success = db.deleteUser(args['userID'])
+                if success:
+                    return {'message': 'User deleted successfully'}, 200
+                else:
+                    abort(500, message="Failed to delete user")
+            
+            else:
+                abort(400, message="Invalid action. Use 'update' or 'delete'")
+        
+        except Exception as e:
+            abort(500, message=f"Modify failed: {str(e)}")
