@@ -15,7 +15,7 @@ CORS(
 	app,
 	resources={r"/api/*": {"origins": [
     "http://localhost:5173", 
-    "https://dyna-zor-3ybi.vercel.app"
+    "https://dyna-zor.vercel.app"
     ]}},
 	supports_credentials=True,
 	allow_headers=["Content-Type", "Authorization"],
