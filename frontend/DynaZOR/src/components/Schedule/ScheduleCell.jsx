@@ -3,6 +3,8 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
   const isAvailable = item?.available === 1 && item?.bookedByUserID !== currentUserID;
   const isBookedByCurrentUser = item?.available === 1 && item?.bookedByUserID === currentUserID
   const isBooked = item?.available === 0;
+  const waitlistCount = item?.waitlist_count || 0;
+  const hasBooking = item?.bookedByUserID != null;
 
   const handleClick = () => {
     if (onClick) {
@@ -29,6 +31,16 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
       
       {/* Content */}
       <div className="relative z-10 text-center">
+		{waitlistCount > 0 && (
+             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-300 border border-yellow-500 text-yellow-900 text-[10px] font-bold px-3 py-1 rounded-full shadow-md z-20 whitespace-nowrap">
+               In Queue: {waitlistCount}
+             </div>
+        )}
+		{hasBooking && (
+             <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-indigo-100 border border-indigo-300 text-indigo-900 text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md z-20 whitespace-nowrap">
+               Booked by userID: {item.bookedByUserID}
+             </div>
+        )}
         {!item && isOwner && (
           <div className="flex flex-col items-center">
             <svg className="w-6 h-6 text-gray-400 group-hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,6 +62,7 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
               </>
             ) : (
               <span className="text-xs font-bold text-white mt-1 drop-shadow">Available</span>
+			  
             )}
           </div>
         )}

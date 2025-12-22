@@ -180,10 +180,10 @@ class Appointment(Resource):
             except Exception:
                 abort(400, message="Each selection must include date (YYYY-MM-DD), hour, minute")
 
+            if not (db.checkOwnAvailability(booker_id,hour,minute,date)):
+                abort(400, message=f"Your schedule is not available for timeslot {hour}:{minute}")
             # Book the slot (viewer requests translate to booking for simplicity)
             try:
-                if not (db.checkOwnAvailability):
-                    abort(400, message=f"Your schedule is not available for timeslot {hour}:{minute}")
                 db.schedulerAlgorithm(user_id, date, hour, minute, booker_id)
                 booked.append({'date': date, 'hour': hour, 'minute': minute})
             except Exception as e:

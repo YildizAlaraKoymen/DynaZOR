@@ -185,7 +185,9 @@ def getSchedule(userID):
     scheduleID, scheduleDate = row
     
     cursor.execute("""
-        SELECT hour, minute, available, bookedByUserID FROM timeslots
+        SELECT ts.hour, ts.minute, ts.available, ts.bookedByUserID, 
+        (SELECT COUNT(*) FROM priorityQueue pq WHERE pq.timeslotID = ts.timeslotID) 
+        FROM timeslots ts
         WHERE scheduleID=? ORDER BY hour, minute
     """, (scheduleID,))
     timeSlots = cursor.fetchall()
@@ -193,7 +195,7 @@ def getSchedule(userID):
     return [{
         'date': str(scheduleDate),
         'timeslots': [
-            {'hour': ts[0], 'minute': ts[1], 'available': int(ts[2]), 'bookedByUserID': ts[3]}
+            {'hour': ts[0], 'minute': ts[1], 'available': int(ts[2]), 'bookedByUserID': ts[3], 'waitlist_count': ts[4]}
             for ts in timeSlots
         ]
     }]
@@ -413,7 +415,7 @@ def getUserBookings(user_id):
 
     return cursor.fetchall()
 
-def checkOwnAvailability(user_id, hour, minute):
+def checkOwnAvailability(user_id, hour, minute,date):
     cursor.execute("""
         SELECT ts.available
         FROM timeslots ts
@@ -421,7 +423,9 @@ def checkOwnAvailability(user_id, hour, minute):
         WHERE ts.hour = ?
         AND ts.minute = ?
         AND us.userID = ?
-    """, (hour,minute,user_id))
+        AND us.scheduleDate = ?
+    """, (hour,minute,user_id,date))
 
     row = cursor.fetchone()
+    print (row)
     return row[0]
