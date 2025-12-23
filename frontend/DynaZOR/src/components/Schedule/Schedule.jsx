@@ -187,7 +187,8 @@ export default function Schedule({ userID }) {
                   setSchedule(data?.schedule || []);
                 } catch (err) {
                   console.error(err);
-                  setMessage(["Failed to submit appointment", "error"]);
+                  const backendMessage = err.response?.data?.message;
+                  setMessage([backendMessage || "Failed to submit appointment", "error"]);
                 } finally {
                   setLoading(false);
                 }

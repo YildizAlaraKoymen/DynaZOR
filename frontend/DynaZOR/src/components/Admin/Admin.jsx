@@ -319,7 +319,7 @@ export default function Admin() {
                                     <tr key={i} style={{ borderTop: '1px solid #e5e7eb' }}>
                                       <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{ts.timeSlotID}</td>
                                       <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{String(ts.hour).padStart(2, '0')}:{String(ts.minute).padStart(2, '0')}</td>
-                                      <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{ts.available === 1 ? '✓ Yes' : '✗ No'}</td>
+                                      <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{ts.available ? '✓ Yes' : '✗ No'}</td>
                                       <td style={{ padding: '0.5rem' }}>{ts.bookedByUserID || '—'}</td>
                                     </tr>
                                   ))}

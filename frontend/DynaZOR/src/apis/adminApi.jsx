@@ -6,7 +6,6 @@ const axios = getAxiosInstance();
 export const adminApi = () => {
 
   const authenticate = async (password) => {
-      console.log(password)
       const response = await axios.post(ENDPOINTS.ADMIN_AUTH, { password });
       return response.data;
     };
