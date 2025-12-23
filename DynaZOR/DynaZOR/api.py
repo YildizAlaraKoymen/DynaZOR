@@ -114,14 +114,49 @@ class TimeSlot(Resource):
     """Toggle a timeslot between available/unavailable"""
     def post(self, user_id):
         parser = reqparse.RequestParser()
+        username = db.getUsernameByID(user_id)
         parser.add_argument('date', type=str, required=True, help='Date is required (YYYY-MM-DD)')
         parser.add_argument('hour', type=int, required=True, help='Hour is required')
         parser.add_argument('minute', type=int, required=True, help='Minute is required')
         
         args = parser.parse_args()
-        
+
         try:
             db.toggleSlotDB(user_id, args['date'], args['hour'], args['minute'])
+
+            chosenTimeslotID = db.getTimeslotID(user_id, args['date'], args['hour'], args['minute'])
+            cancelled_booker_id = db.isBooked(chosenTimeslotID)
+            if (cancelled_booker_id):
+                cancelled_booker_email = db.getEmailByUserID(cancelled_booker_id)
+                sns_client.publish(
+                    TopicArn=TOPIC_ARN, 
+                    Message=f"Your appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d} has been cancelled by the owner.",
+                    Subject="Appointment Cancelled",
+                    MessageAttributes={
+                        'target_email': {
+                        'DataType': 'String',
+                        'StringValue': cancelled_booker_email
+                        }
+                    }
+                )
+
+                cancelled_waitlist = db.getWaitList(chosenTimeslotID)
+                for i in cancelled_waitlist:
+                    db.removeFromWaitlist(chosenTimeslotID,i['user_id'])
+                    sns_client.publish(
+                        TopicArn=TOPIC_ARN, 
+                        Message=f"You are no longer waiting in the queue for appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d}, appointment slot has been removed by the owner.",
+                        Subject="Appointment Queue Cancelled",
+                        MessageAttributes={
+                            'target_email': {
+                            'DataType': 'String',
+                            'StringValue': i['email']
+                            }
+                        }
+                    )                    
+
+                db.freeSlotDB(chosenTimeslotID)
+
             return {'message': 'Timeslot toggled successfully'}, 200
         except Exception as e:
             abort(500, message=str(e))
@@ -181,9 +216,12 @@ class Appointment(Resource):
 
             # Ensure the booker's own schedule is free for the requested slot
             is_available = db.checkOwnAvailability(booker_id, hour, minute, date)
+            selectedTimeslotID = db.getTimeslotID(user_id, date, hour, minute)
             if not is_available:
                 abort(400, message=f"Your schedule is not available for timeslot {hour:02d}:{minute:02d}")
             try:
+                if db.isInWaitlist(booker_id,selectedTimeslotID):
+                    abort(400, message=f"Your are already in the waitlist for timeslot {hour:02d}:{minute:02d}")
                 db.schedulerAlgorithm(user_id, date, hour, minute, booker_id)
                 booked.append({'date': date, 'hour': hour, 'minute': minute})
             except Exception as e:
@@ -217,7 +255,7 @@ class Appointment(Resource):
                 if (waitingUserEmail):
                     sns_client.publish(
                         TopicArn=TOPIC_ARN, 
-                        Message=f"A spot for the appointment with {username} opened up on {date} at {hour}:{minute}!",
+                        Message=f"A spot for the appointment with {username} opened up on {date} at {hour:02d}:{minute:02d}!",
                         Subject="Appointment Rescheduled",
                         MessageAttributes={
                             'target_email': {

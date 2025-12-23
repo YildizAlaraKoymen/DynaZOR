@@ -1,4 +1,6 @@
 # db.py
+import re
+import time
 from dotenv import load_dotenv
 import pyodbc
 import os
@@ -303,7 +305,11 @@ def isBooked(timeslotID):
         WHERE timeSlotID = ?
     """, (timeslotID,))
     row = cursor.fetchone()
-    return row[0] != None 
+
+    if row is None:
+        return None
+
+    return row[0]
 
 def getTimeslotID(user_id, date_str, hour, minute):
     cursor.execute("""
@@ -317,6 +323,10 @@ def getTimeslotID(user_id, date_str, hour, minute):
     """, (user_id, date_str, hour, minute))
     row = cursor.fetchone()
     return row[0]
+
+def isInWaitlist(user_id,timeslotID):
+    cursor.execute("SELECT * FROM priorityQueue WHERE userID = ? AND timeslotID = ?", (user_id,timeslotID))
+    return cursor.fetchone()
 
 def schedulerAlgorithm(userID,dateStr,hour,minute,appointingUserID):
     appointed_user_timeslotID =  getTimeslotID(appointingUserID, dateStr, hour, minute)
@@ -359,7 +369,7 @@ def getUsernameByID(user_id):
         WHERE userID = ?
     """, (user_id,))
     row = cursor.fetchone()
-    return row
+    return row[0]
 
 def getMostFrequentSlotOfUser(userID):
     cursor.execute("""
@@ -534,3 +544,7 @@ def checkAdminLogin(username, password):
                 return (0, 'admin')  # Return dummy admin record
         print(f"Admin login error: {e}")
         return None
+
+def getEmailByUserID(user_id):
+    cursor.execute("SELECT email FROM users WHERE userID = ?", (user_id,))
+    return cursor.fetchone()[0]
