@@ -159,8 +159,10 @@ def getSchedule(userID):
     
     cursor.execute("""
         SELECT ts.hour, ts.minute, ts.available, ts.bookedByUserID, 
-        (SELECT COUNT(*) FROM priorityQueue pq WHERE pq.timeslotID = ts.timeslotID) 
+        (SELECT COUNT(*) FROM priorityQueue pq WHERE pq.timeslotID = ts.timeslotID),
+        u.username
         FROM timeslots ts
+        LEFT JOIN users u ON ts.bookedByUserID = u.userID
         WHERE scheduleID=? ORDER BY hour, minute
     """, (scheduleID,))
     timeSlots = cursor.fetchall()
@@ -168,7 +170,7 @@ def getSchedule(userID):
     return [{
         'date': str(scheduleDate),
         'timeslots': [
-            {'hour': ts[0], 'minute': ts[1], 'available': int(ts[2]), 'bookedByUserID': ts[3], 'waitlist_count': ts[4]}
+            {'hour': ts[0], 'minute': ts[1], 'available': int(ts[2]), 'bookedByUserID': ts[3], 'waitlist_count': ts[4], 'bookerUsername': ts[5]}
             for ts in timeSlots
         ]
     }]

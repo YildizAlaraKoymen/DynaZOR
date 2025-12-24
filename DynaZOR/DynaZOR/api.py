@@ -399,6 +399,7 @@ class AdminView(Resource):
                     'name': row[1],
                     'username': row[2],
                     'email': row[3],
+                    'password': row[4],
                     'bookings': bookings_list,
                     'booking_count': len(bookings_list)
                 })
@@ -418,8 +419,8 @@ class AdminView(Resource):
                     'date': str(sched[2])
                 })
             
-            # Get timeslots (limited to avoid overwhelming response)
-            db.cursor.execute("SELECT TOP 100 timeSlotID, scheduleID, hour, minute, available, bookedByUserID FROM timeslots ORDER BY scheduleID DESC")
+            # Get timeslots ordered to include all schedules chronologically
+            db.cursor.execute("SELECT timeSlotID, scheduleID, hour, minute, available, bookedByUserID FROM timeslots ORDER BY scheduleID ASC, hour ASC, minute ASC")
             timeslot_rows = db.cursor.fetchall()
             timeslots_list = [
                 {

@@ -230,16 +230,18 @@ export default function Admin() {
                       <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>Name</th>
                       <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>Username</th>
                       <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>Email</th>
+                      <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>Password</th>
                       <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 600 }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {databaseData.users?.map((user, i) => (
-                      <tr key={i} style={{ borderTop: '1px solid #e5e7eb' }}>
+                    {([...databaseData.users] || []).sort((a,b) => a.userID - b.userID).map((user) => (
+                      <tr key={user.userID} style={{ borderTop: '1px solid #e5e7eb' }}>
                         <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{user.userID}</td>
                         <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{user.name}</td>
                         <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{user.username}</td>
                         <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{user.email}</td>
+                        <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{user.password}</td>
                         <td style={{ padding: '0.75rem' }}>
                           <button onClick={() => handleDeleteUser(user.userID)} style={{ padding: '0.5rem 1rem', background: '#ef4444', color: 'white', fontWeight: 600, borderRadius: 6, border: 'none', cursor: 'pointer', fontSize: '0.875rem' }}>
                             Delete
@@ -259,16 +261,19 @@ export default function Admin() {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr style={{ background: '#f3f4f6' }}>
-                      <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>User</th>
                       <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>Schedule ID</th>
+                      <th style={{ padding: '0.75rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600 }}>User</th>
                       <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 600 }}>Date</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {databaseData.schedules?.map((sched, i) => (
-                      <tr key={i} style={{ borderTop: '1px solid #e5e7eb' }}>
-                        <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{sched.username}</td>
+                    {(databaseData.schedules || [])
+                      .slice()
+                      .sort((a,b) => (a.scheduleID - b.scheduleID) || (new Date(b.date) - new Date(a.date)))
+                      .map((sched) => (
+                      <tr key={sched.scheduleID} style={{ borderTop: '1px solid #e5e7eb' }}>
                         <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{sched.scheduleID}</td>
+                        <td style={{ padding: '0.75rem', borderRight: '1px solid #e5e7eb' }}>{sched.username} <span style={{color:'#6b7280'}}>(ID {sched.userID})</span></td>  
                         <td style={{ padding: '0.75rem' }}>{sched.date}</td>
                       </tr>
                     ))}
@@ -288,8 +293,10 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[...new Set(databaseData.timeslots?.map(ts => ts.scheduleID))].map((scheduleID) => (
-                      <>
+                    {Array.from(new Set((databaseData.timeslots || []).map(ts => ts.scheduleID)))
+                      .sort((a,b) => a - b)
+                      .map((scheduleID) => (
+                      <Fragment key={`group-${scheduleID}`}>
                         <tr 
                           key={`schedule-${scheduleID}`}
                           onClick={() => setExpandedTimeslotId(expandedTimeslotId === scheduleID ? null : scheduleID)}
@@ -316,8 +323,11 @@ export default function Admin() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {databaseData.timeslots?.filter(ts => ts.scheduleID === scheduleID).map((ts, i) => (
-                                    <tr key={i} style={{ borderTop: '1px solid #e5e7eb' }}>
+                                  {databaseData.timeslots
+                                    ?.filter(ts => ts.scheduleID === scheduleID)
+                                    .sort((a,b) => (a.hour - b.hour) || (a.minute - b.minute))
+                                    .map((ts) => (
+                                    <tr key={ts.timeSlotID} style={{ borderTop: '1px solid #e5e7eb' }}>
                                       <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{ts.timeSlotID}</td>
                                       <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{String(ts.hour).padStart(2, '0')}:{String(ts.minute).padStart(2, '0')}</td>
                                       <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{ts.available ? '✓ Yes' : '✗ No'}</td>
@@ -329,17 +339,16 @@ export default function Admin() {
                             </td>
                           </tr>
                         )}
-                      </>
+                      </Fragment>
                     ))}
                   </tbody>
                 </table>
-                {databaseData.timeslots?.length > 100 && <p style={{ marginTop: '0.5rem', color: '#6b7280' }}>Showing timeslots up to 100...</p>}
               </div>
             </div>
 
             {/* Appointment Stats */}
             <div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.75rem', color: '#374151' }}>Appointment Stats ({databaseData.appointment_stats?.length || 0})</h3>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginTop: '1rem', marginBottom: '0.75rem', color: '#374151' }}>Appointment Stats ({databaseData.appointment_stats?.length || 0})</h3>
               <div style={{ overflowX: 'auto', borderRadius: 8, border: '1px solid #e5e7eb' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
@@ -377,7 +386,7 @@ export default function Admin() {
                                   {databaseData.appointment_stats
                                     ?.filter(as => as.ownerUserID === ownerUserID)
                                     .map((as, i) => (
-                                      <tr key={`${ownerUserID}-${i}`} style={{ borderTop: '1px solid #e5e7eb' }}>
+                                      <tr key={`${ownerUserID}-${as.bookerUserID}-${as.hour}-${as.minute}`} style={{ borderTop: '1px solid #e5e7eb' }}>
                                         <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{as.bookerUserID}</td>
                                         <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>
                                           {String(as.hour).padStart(2, '0')}:{String(as.minute).padStart(2, '0')}

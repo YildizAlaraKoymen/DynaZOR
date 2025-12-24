@@ -42,15 +42,15 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
           </div>
         )}
         
-          {isAvailable && (
+          {isOwner && isAvailable && (
             (hasBooking || waitlistCount > 0) ? (
               <div className="flex items-center justify-center gap-2">
                 {hasBooking && (
-                  <div className="flex items-center gap-1 bg-white/20 text-white px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap">
+                  <div className="flex items-center gap-1 bg-white/25 text-white px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap shadow">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H5z" />
                     </svg>
-                    <span className="text-[11px] font-semibold">Booked by ID: {item.bookedByUserID}</span>
+                    <span className="text-sm md:text-base font-bold">Booked: {item.bookerUsername || `ID: ${item.bookedByUserID}`}</span>
                   </div>
                 )}
                 {waitlistCount > 0 && (
@@ -79,19 +79,57 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
               </div>
             )
         )}
+        {!isOwner && isAvailable && (
+            (hasBooking || waitlistCount > 0) ? (
+              <div className="flex items-center justify-center gap-2">
+                {hasBooking && (
+                  <div className="flex items-center gap-1 bg-white/25 text-white px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap shadow">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H5z" />
+                    </svg>
+                    <span className="text-sm md:text-base font-bold">Booked by a user</span>
+                  </div>
+                )}
+                {waitlistCount > 0 && (
+                  <div className="flex items-center gap-1 bg-white/20 text-white px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-[11px] font-semibold">Queue: {waitlistCount}</span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-2">
+                <svg className="w-8 h-8 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                {isOwner ? (
+                  <>
+                    <span className="text-xs font-bold text-white drop-shadow group-hover:hidden">Available</span>
+                    <span className="text-xs font-bold text-white drop-shadow hidden group-hover:block">Make it busy</span>
+                  </>
+                ) : (
+                  <span className="text-xs font-bold text-white drop-shadow">Available</span>
+                  
+                )}
+              </div>
+            )
+        )}
+
         
           {isBooked && (
           <div className="flex items-center justify-center gap-2">
             <svg className="w-8 h-8 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
-            <span className="text-xs font-bold text-white drop-shadow">Busy</span>
-            {hasBooking && (
-              <div className="ml-2 flex items-center gap-1 bg-white/20 text-white px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap">
+            <span className="text-sm md:text-base font-extrabold text-white drop-shadow">Busy</span>
+            {hasBooking && isOwner && (
+              <div className="ml-2 flex items-center gap-1 bg-white/25 text-white px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/30 whitespace-nowrap shadow">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H5z" />
                 </svg>
-                <span className="text-[11px] font-semibold">Booked: {item.bookedByUserID}</span>
+                <span className="text-sm md:text-base font-bold">Booked: {item.bookerUsername || `ID: ${item.bookedByUserID}`}</span>
               </div>
             )}
           </div>

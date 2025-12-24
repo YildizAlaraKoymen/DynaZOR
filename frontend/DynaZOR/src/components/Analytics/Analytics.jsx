@@ -69,7 +69,7 @@ export default function Analytics({ userID }) {
         <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-md p-8 border border-purple-200">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <p className="text-gray-600 text-sm font-medium mb-2">Top Bookers</p>
+              <p className="text-gray-600 text-sm font-medium mb-2">Bookers</p>
               <h3 className="text-3xl font-bold text-purple-600">
                 {topBookers?.length || 0}
               </h3>
