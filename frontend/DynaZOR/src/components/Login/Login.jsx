@@ -23,7 +23,11 @@ export default function Login() {
       const res = await login(credentials);
       const userID = res?.userID;
       if (userID) {
+        // Clear all previous session data to prevent multi-user conflicts
+        localStorage.clear();
+        // Set new user session
         localStorage.setItem("userID", String(userID));
+        localStorage.setItem("loggedInAt", String(Date.now()));
       }
 
       setMessage([res.message, "success"]);

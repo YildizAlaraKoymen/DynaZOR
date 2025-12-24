@@ -33,7 +33,11 @@ export default function Register() {
       const today = new Date().toISOString().split("T")[0];
       await createSchedule({ userID, scheduleDate: today });
 
+      // Clear all previous session data to prevent multi-user conflicts
+      localStorage.clear();
+      // Set new user session
       localStorage.setItem("userID", String(userID));
+      localStorage.setItem("loggedInAt", String(Date.now()));
 
       setTimeout(() => {
         navigate("/dashboard", { state: { userID } });

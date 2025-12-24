@@ -4,7 +4,8 @@ export default function Navbar({userID}) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('userID');
+    // Clear all session data to ensure clean logout
+    localStorage.clear();
     navigate('/home');
   };
 

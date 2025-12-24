@@ -135,7 +135,7 @@ export default function Analytics({ userID }) {
       {(!topBookers || topBookers.length === 0) && !frequentHour && (
         <div className="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 p-12 text-center">
           <p className="text-gray-600 text-lg mb-2">📈 No analytics data yet</p>
-          <p className="text-gray-500">Start booking appointments to see your analytics data appear here</p>
+          <p className="text-gray-500">Share your username to get them to book an appointment!</p>
         </div>
       )}
     </div>

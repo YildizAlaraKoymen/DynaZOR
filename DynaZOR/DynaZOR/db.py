@@ -240,16 +240,29 @@ def freeSlotDB(timeSlotID):
     return cursor.rowcount
 
 def addAppointmentDB(timeslotID, appointedTimeslotID, userID):
+    # Get the owner's userID from the timeslot
+    cursor.execute("""
+        SELECT us.userID 
+        FROM timeslots ts
+        JOIN userSchedule us ON ts.scheduleID = us.scheduleID
+        WHERE ts.timeSlotID = ?
+    """, (timeslotID,))
+    owner_result = cursor.fetchone()
+    ownerUserID = owner_result[0] if owner_result else None
+    
+    # Set bookedByUserID on the owner's timeslot (who is being booked)
     cursor.execute("""
         UPDATE timeslots 
         SET bookedByUserID = ?
         WHERE timeSlotID = ?
     """, (userID, timeslotID))
+    
+    # Set available=0 and bookedByUserID on the booker's timeslot
     cursor.execute("""
         UPDATE timeslots
-        SET available = 0
+        SET available = 0, bookedByUserID = ?
         WHERE timeSlotID = ?
-    """, (appointedTimeslotID,))
+    """, (ownerUserID, appointedTimeslotID))
     conn.commit()
 
 def removeFromWaitlist(timeslot_id, user_id):
