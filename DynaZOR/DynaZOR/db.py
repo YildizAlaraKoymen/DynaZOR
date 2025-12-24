@@ -119,12 +119,6 @@ def createUser(name,username,email,password):
     conn.commit()
 
 
-def deletePastDays(userID, today: date):
-    cursor.execute("""
-        DELETE FROM userSchedule WHERE userID=? AND scheduleDate < ?
-    """, (userID, today))
-    conn.commit()
-
 def createSchedule(userID, scheduleDate):
     cursor.execute("""
         INSERT INTO userSchedule(userID, scheduleDate)
@@ -149,41 +143,6 @@ def createSchedule(userID, scheduleDate):
     
     conn.commit()
     return scheduleID
-
-def getLastScheduleDay(userID):
-    cursor.execute("""
-        SELECT scheduleDate FROM userSchedule
-        WHERE userID=?
-        ORDER BY scheduleDate DESC
-        LIMIT 1
-    """, (userID,))
-    row = cursor.fetchone()
-    return row[0] if row else None
-
-
-def getScheduleDayCount(userID):
-    cursor.execute("""
-        SELECT COUNT(*) FROM userSchedule WHERE userID=?
-    """, (userID,))
-    count = cursor.fetchone()[0]
-    return count
-
-
-def insertScheduleDay(userID, scheduleDate):
-    cursor.execute("""
-        INSERT INTO userSchedule(userID, scheduleDate)
-        OUTPUT INSERTED.userID VALUES (?, ?)
-    """, (userID, scheduleDate))
-    user_id = cursor.fetchone()[0]
-    conn.commit()
-    return user_id
-
-def insertTimeSlot(scheduleID, hour, minute, available):
-    cursor.execute("""
-        INSERT INTO timeslots(scheduleID, hour, minute, available)
-        VALUES (?, ?, ?, ?)
-    """, (scheduleID, hour, minute, available))
-    conn.commit()
 
 def getSchedule(userID):
     cursor.execute("""
@@ -530,7 +489,7 @@ def backupDatabase():
         return None
 
 
-# Admin helper
+# Admin helpers
 def checkAdminLogin(username, password):
     """Validate admin credentials; allows fallback if admin table doesn't exist"""
     try:

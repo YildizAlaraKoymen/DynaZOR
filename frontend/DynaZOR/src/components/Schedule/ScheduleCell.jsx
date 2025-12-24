@@ -50,7 +50,7 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H5z" />
                     </svg>
-                    <span className="text-[11px] font-semibold">Booked: {item.bookedByUserID}</span>
+                    <span className="text-[11px] font-semibold">Booked by ID: {item.bookedByUserID}</span>
                   </div>
                 )}
                 {waitlistCount > 0 && (
@@ -58,7 +58,7 @@ export default function ScheduleCell({ time, day, item, onClick, isOwner, select
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-[11px] font-semibold">Queue {waitlistCount}</span>
+                    <span className="text-[11px] font-semibold">Queue: {waitlistCount}</span>
                   </div>
                 )}
               </div>

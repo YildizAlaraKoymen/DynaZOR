@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { analyticsApi } from '../../apis/analyticsApi';
 
 export default function Analytics({ userID }) {
-  const [analyticsData, setAnalyticsData] = useState(null);
+  const [frequentHour, setFrequentHour] = useState(null);
+  const [topBookers, setTopBookers] = useState(null)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { getAnalytics } = analyticsApi();
@@ -12,7 +13,8 @@ export default function Analytics({ userID }) {
       try {
         setLoading(true);
         const data = await getAnalytics(userID);
-        setAnalyticsData(data);
+        setFrequentHour(data.frequent_hour);
+        setTopBookers(data.top_bookers || []);
       } catch (err) {
         console.error('Error fetching analytics:', err);
         setError('Failed to load analytics data');
@@ -46,11 +48,6 @@ export default function Analytics({ userID }) {
 
   return (
     <div className="w-full">
-      {/* Header */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">📊 Analytics</h2>
-        <p className="text-gray-600">Your scheduling insights and metrics</p>
-      </div>
 
       {/* Key Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -60,7 +57,7 @@ export default function Analytics({ userID }) {
             <div>
               <p className="text-gray-600 text-sm font-medium mb-2">Peak Hour</p>
               <h3 className="text-3xl font-bold text-blue-600">
-                {analyticsData?.frequent_hour || 'N/A'}
+                {frequentHour || 'N/A'}
               </h3>
             </div>
             <span className="text-4xl">⏰</span>
@@ -74,7 +71,7 @@ export default function Analytics({ userID }) {
             <div>
               <p className="text-gray-600 text-sm font-medium mb-2">Top Bookers</p>
               <h3 className="text-3xl font-bold text-purple-600">
-                {analyticsData?.top_bookers?.length || 0}
+                {topBookers?.length || 0}
               </h3>
             </div>
             <span className="text-4xl">👥</span>
@@ -96,7 +93,7 @@ export default function Analytics({ userID }) {
       </div>
 
       {/* Top Bookers Section */}
-      {analyticsData?.top_bookers && analyticsData.top_bookers.length > 0 && (
+      {topBookers && topBookers.length > 0 && (
         <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
             <h3 className="text-2xl font-bold text-white">Top Bookers</h3>
@@ -104,7 +101,7 @@ export default function Analytics({ userID }) {
           </div>
 
           <div className="divide-y divide-gray-200">
-            {analyticsData.top_bookers.map((booker, idx) => (
+            {topBookers.map((booker, idx) => (
               <div key={idx} className="px-8 py-6 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -122,7 +119,7 @@ export default function Analytics({ userID }) {
                       <div
                         className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
                         style={{
-                          width: `${(booker.count / (analyticsData.top_bookers[0]?.count || 1)) * 100}%`,
+                          width: `${(booker.count / (topBookers[0]?.count || 1)) * 100}%`,
                         }}
                       ></div>
                     </div>
@@ -135,7 +132,7 @@ export default function Analytics({ userID }) {
       )}
 
       {/* No Data State */}
-      {(!analyticsData?.top_bookers || analyticsData.top_bookers.length === 0) && !analyticsData?.frequent_hour && (
+      {(!topBookers || topBookers.length === 0) && !frequentHour && (
         <div className="bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 p-12 text-center">
           <p className="text-gray-600 text-lg mb-2">📈 No analytics data yet</p>
           <p className="text-gray-500">Start booking appointments to see your analytics data appear here</p>

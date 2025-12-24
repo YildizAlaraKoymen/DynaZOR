@@ -293,38 +293,25 @@ class Analytics(Resource):
         except Exception as e:
             abort(500, message=str(e))
 
-class AdminInitialize(Resource):
-    # initializes or resets the database
-    def post(self):
+
+class Profile(Resource):
+    """Update basic profile fields for the current user"""
+    def put(self, user_id):
+        payload = request.get_json(force=True) or {}
+        name = payload.get("name")
+        username = payload.get("username")
+        email = payload.get("email")
+
+        if not any([name, username, email]):
+            abort(400, message="Provide at least one of name, username, or email")
+
         try:
-            db.createTables()
-            return {"message":"Database initialized!"}, 200
-        except Exception as e:
-            abort(500, message=f"Initialization failed: {str(e)}")
-
-class AdminUserList(Resource):
-    #shows all user info and their bookings
-    def get(self):
-        try:
-            rows = db.getAllUsersInfo()
-            user_list = []
-            for row in rows:
-                user_id = row[0]
-                user_bookings = db.getUserBookings(user_id)
-                user_list.append({
-                    "userID": row[0],
-                    "name": row[1],
-                    "username": row[2],
-                    "email": row[3],
-                    "bookings": user_bookings,
-                    "booking_count": len(user_bookings) 
-                })
-
-            return {"user_count": len(user_list), "user_list": user_list}
-
+            success = db.updateUser(user_id, name=name, username=username, email=email)
+            if not success:
+                abort(500, message="Failed to update profile")
+            return {"message": "Profile updated"}, 200
         except Exception as e:
             abort(500, message=str(e))
-
 
 class AdminAuth(Resource):
     """Authenticate admin with password"""
@@ -342,7 +329,7 @@ class AdminAuth(Resource):
             abort(401, message="Invalid admin password")
 
 
-class AdminInit(Resource):
+class AdminInitialize(Resource):
     """Initialize or reset the database with admin authentication"""
     def post(self):
         parser = reqparse.RequestParser()
@@ -444,12 +431,26 @@ class AdminView(Resource):
                     'bookedByUserID': ts[5]
                 } for ts in timeslot_rows
             ]
+
+            # appointment stats snapshot
+            db.cursor.execute("SELECT ownerUserID, bookerUserID, hour, minute, bookingCount FROM appointmentStats")
+            stats_rows = db.cursor.fetchall()
+            stats_list = [
+                {
+                    'ownerUserID': s[0],
+                    'bookerUserID': s[1],
+                    'hour': s[2],
+                    'minute': s[3],
+                    'bookingCount': s[4]
+                } for s in stats_rows
+            ]
             
             return {
                 'user_count': len(user_list),
                 'users': user_list,
                 'schedules': schedules_list,
                 'timeslots': timeslots_list,
+                'appointment_stats': stats_list,
                 'message': 'Database view retrieved successfully'
             }, 200
         except Exception as e:

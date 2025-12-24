@@ -36,10 +36,15 @@ export const userApi = () => {
       return response.data;
   }
   
+  const updateProfile = async (userID, payload) => {
+    const response = await axios.put(`${ENDPOINTS.USER_PROFILE}/${userID}`, payload);
+    return response.data;
+  }
+  
   const cancelAppointment = async(userID, payload) => {
 	  const response = await axios.delete(`${ENDPOINTS.APPOINTMENT_SUBMIT}/${userID}`, {data: payload});
 	  return response.data
   }
 
-  return { getSchedule, createSchedule, getUserByUsername, toggleTimeslot, submitAppointment, getUser, cancelAppointment };
+    return { getSchedule, createSchedule, getUserByUsername, toggleTimeslot, submitAppointment, getUser, cancelAppointment, updateProfile };
 };

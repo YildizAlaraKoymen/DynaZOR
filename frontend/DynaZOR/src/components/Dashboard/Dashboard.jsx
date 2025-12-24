@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { userApi } from '../../apis/userApi';
 import Appointment from '../Appointment/Appointment';
+import Analytics from '../Analytics/Analytics';
 
 export default function Dashboard({ userID }) {
   const [loading, setLoading] = useState(true);
@@ -52,17 +53,9 @@ export default function Dashboard({ userID }) {
     );
   }
 
-  const stats = [
-    { icon: "📅", label: "Total Appointments", value: "12" },
-    { icon: "📊", label: "Utilization Rate", value: "68%" },
-    { icon: "⏰", label: "Peak Hour", value: "10:15 AM" },
-    { icon: "📈", label: "This Month", value: "8" },
-  ];
-
   const quickActions = [
     { title: "View My Schedule", description: "Manage your availability", color: "from-blue-500 to-cyan-500", icon: "📋" },
     { title: "Manage Profile", description: "Edit your profile", color: "from-purple-500 to-pink-500", icon: "👤" },
-    { title: "View History", description: "Past appointments", color: "from-green-500 to-emerald-500", icon: "📜" },
   ];
 
   return (
@@ -86,7 +79,7 @@ export default function Dashboard({ userID }) {
                 if (idx === 0) {
                   navigate("/schedule", { state: { userID } });
                 } else if (idx === 1) {
-                  navigate("/home");
+                  navigate("/profile");
                 }
               };
 
@@ -118,34 +111,8 @@ export default function Dashboard({ userID }) {
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
             <h2 className="text-2xl font-bold text-white">📊 Analytics</h2>
-            <p className="text-indigo-100 mt-1">Coming soon - Track your scheduling insights</p>
-          </div>
-          
-          <div className="p-12">
-            <div className="flex flex-col items-center justify-center min-h-96">
-              <div className="text-center">
-                <div className="inline-block bg-indigo-100 rounded-full p-6 mb-6">
-                  <svg className="w-16 h-16 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Analytics Dashboard</h3>
-                <p className="text-gray-600 text-lg mb-8 max-w-md">
-                  Detailed insights about your scheduling patterns, appointment trends, and utilization metrics coming soon.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 max-w-2xl mx-auto">
-                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                    <p className="text-blue-600 font-semibold text-sm">📈 Booking Trends</p>
-                  </div>
-                  <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
-                    <p className="text-purple-600 font-semibold text-sm">⏰ Peak Hours</p>
-                  </div>
-                  <div className="bg-pink-50 rounded-lg p-4 border border-pink-200">
-                    <p className="text-pink-600 font-semibold text-sm">👥 User Activity</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p className="text-indigo-100 mt-1">Scheduling insights</p>
+            <Analytics userID={ userID }/>
           </div>
         </div>
 

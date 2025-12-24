@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { adminApi } from '../../apis/adminApi';
 
 export default function Admin() {
@@ -9,6 +9,7 @@ export default function Admin() {
   const [databaseData, setDatabaseData] = useState(null);
   const [modifyUser, setModifyUser] = useState({ userID: '', name: '', username: '', email: '' });
   const [expandedTimeslotId, setExpandedTimeslotId] = useState(null);
+  const [expandedOwnerId, setExpandedOwnerId] = useState(null);
 
   const { authenticate, initDB, resetDB, viewDB, backupDB, modifyDB } = adminApi();
 
@@ -333,6 +334,66 @@ export default function Admin() {
                   </tbody>
                 </table>
                 {databaseData.timeslots?.length > 100 && <p style={{ marginTop: '0.5rem', color: '#6b7280' }}>Showing timeslots up to 100...</p>}
+              </div>
+            </div>
+
+            {/* Appointment Stats */}
+            <div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.75rem', color: '#374151' }}>Appointment Stats ({databaseData.appointment_stats?.length || 0})</h3>
+              <div style={{ overflowX: 'auto', borderRadius: 8, border: '1px solid #e5e7eb' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: '#f3f4f6' }}>
+                      <th style={{ padding: '0.75rem', textAlign: 'left', fontWeight: 600 }}>Owner ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...new Set(databaseData.appointment_stats?.map(as => as.ownerUserID))].map((ownerUserID) => (
+                      <Fragment key={`owner-${ownerUserID}`}>
+                        <tr
+                          onClick={() => setExpandedOwnerId(expandedOwnerId === ownerUserID ? null : ownerUserID)}
+                          style={{
+                            borderTop: '1px solid #e5e7eb',
+                            cursor: 'pointer',
+                            background: expandedOwnerId === ownerUserID ? '#f9fafb' : 'transparent'
+                          }}
+                        >
+                          <td style={{ padding: '0.75rem' }}>
+                            {expandedOwnerId === ownerUserID ? '▼' : '▶'} Owner ID {ownerUserID}
+                          </td>
+                        </tr>
+                        {expandedOwnerId === ownerUserID && (
+                          <tr style={{ background: '#fafafa' }}>
+                            <td style={{ padding: '1rem', borderTop: '1px solid #e5e7eb' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '0.5rem' }}>
+                                <thead>
+                                  <tr style={{ background: '#f0f1f3' }}>
+                                    <th style={{ padding: '0.5rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600, fontSize: '0.875rem' }}>Booker ID</th>
+                                    <th style={{ padding: '0.5rem', textAlign: 'left', borderRight: '1px solid #e5e7eb', fontWeight: 600, fontSize: '0.875rem' }}>Time</th>
+                                    <th style={{ padding: '0.5rem', textAlign: 'left', fontWeight: 600, fontSize: '0.875rem' }}>Bookings</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {databaseData.appointment_stats
+                                    ?.filter(as => as.ownerUserID === ownerUserID)
+                                    .map((as, i) => (
+                                      <tr key={`${ownerUserID}-${i}`} style={{ borderTop: '1px solid #e5e7eb' }}>
+                                        <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>{as.bookerUserID}</td>
+                                        <td style={{ padding: '0.5rem', borderRight: '1px solid #e5e7eb' }}>
+                                          {String(as.hour).padStart(2, '0')}:{String(as.minute).padStart(2, '0')}
+                                        </td>
+                                        <td style={{ padding: '0.5rem' }}>{as.bookingCount}</td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        )}
+                      </Fragment>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

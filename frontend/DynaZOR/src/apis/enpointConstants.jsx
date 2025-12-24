@@ -2,6 +2,7 @@ const BASE_ENDPOINT = {
   USERS: "/api/user",
   AUTH: "/api/auth",
   ADMIN: "/api/admin",
+  ANALYTICS: "/api/analytics"
 };
 
 export const ENDPOINTS = {
@@ -11,6 +12,7 @@ export const ENDPOINTS = {
   AUTH_REGISTER: `${BASE_ENDPOINT.AUTH}/register`,
   USER_ID_BY_USERNAME_GET: `${BASE_ENDPOINT.USERS}/search`,
   USER_GET: `${BASE_ENDPOINT.USERS}/id`,
+  USER_PROFILE: `${BASE_ENDPOINT.USERS}/profile`,
   TIMESLOT_TOGGLE: `${BASE_ENDPOINT.USERS}/timeslot`,
   APPOINTMENT_SUBMIT: `${BASE_ENDPOINT.USERS}/appointment`,
   ADMIN_AUTH: `${BASE_ENDPOINT.ADMIN}/auth`,
@@ -19,4 +21,5 @@ export const ENDPOINTS = {
   ADMIN_VIEW: `${BASE_ENDPOINT.ADMIN}/view`,
   ADMIN_BACKUP: `${BASE_ENDPOINT.ADMIN}/backup`,
   ADMIN_MODIFY: `${BASE_ENDPOINT.ADMIN}/modify`,
+  ANALYTICS: `${BASE_ENDPOINT.ANALYTICS}`
 };
