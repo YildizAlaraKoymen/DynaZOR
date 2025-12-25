@@ -130,7 +130,7 @@ class TimeSlot(Resource):
                 cancelled_booker_email = db.getEmailByUserID(cancelled_booker_id)
                 sns_client.publish(
                     TopicArn=TOPIC_ARN, 
-                    Message=f"Your appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d} has been cancelled by the owner.",
+                    Message=f"Your appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d} has been cancelled.",
                     Subject="Appointment Cancelled",
                     MessageAttributes={
                         'target_email': {
@@ -141,21 +141,39 @@ class TimeSlot(Resource):
                 )
 
                 cancelled_waitlist = db.getWaitList(chosenTimeslotID)
-                for i in cancelled_waitlist:
-                    db.removeFromWaitlist(chosenTimeslotID,i['user_id'])
-                    sns_client.publish(
-                        TopicArn=TOPIC_ARN, 
-                        Message=f"You are no longer waiting in the queue for appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d}, appointment slot has been removed by the owner.",
-                        Subject="Appointment Queue Cancelled",
-                        MessageAttributes={
-                            'target_email': {
-                            'DataType': 'String',
-                            'StringValue': i['email']
+                if cancelled_waitlist:
+                    for i in cancelled_waitlist:
+                        db.removeFromWaitlist(chosenTimeslotID,i['user_id'])
+                        sns_client.publish(
+                            TopicArn=TOPIC_ARN, 
+                            Message=f"You are no longer waiting in the queue for appointment with {username} on {args['date']} at {args['hour']:02d}:{args['minute']:02d}, appointment slot has been removed by the owner.",
+                            Subject="Appointment Queue Cancelled",
+                            MessageAttributes={
+                                'target_email': {
+                                'DataType': 'String',
+                                'StringValue': i['email']
+                                }
                             }
-                        }
-                    )                    
+                        )                    
 
-                db.freeSlotDB(chosenTimeslotID)
+                    db.freeSlotDB(chosenTimeslotID)
+
+                else:
+                    tempTimeslotID = db.getTimeslotID(cancelled_booker_id, args['date'], args['hour'], args['minute'])
+                    db.freeSlotDB(tempTimeslotID)
+                    waitingUserEmail = db.reSchedulerAlgorithm(cancelled_booker_id, args['date'], args['hour'], args['minute'])
+                    if (waitingUserEmail):
+                        sns_client.publish(
+                            TopicArn=TOPIC_ARN, 
+                            Message=f"A spot for the appointment with {username} opened up on {args['date']} at {args['hour']:02d}:{args['minute']:02d}!",
+                            Subject="Appointment Rescheduled",
+                            MessageAttributes={
+                                'target_email': {
+                                    'DataType': 'String',
+                                    'StringValue': waitingUserEmail
+                                }
+                            }
+                        )
 
             return {'message': 'Timeslot toggled successfully'}, 200
         except Exception as e:

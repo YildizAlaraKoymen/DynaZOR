@@ -68,12 +68,8 @@ export default function Schedule({ userID }) {
     if (isOwner && hasBooking) {
       try {
         setLoading(true);
-        const payload = {
-          bookerID: currentUserID,
-          selections: [{ date: day, hour, minute }]
-        };
         // Cancel on the schedule of the person we booked with (bookedByUserID)
-        await cancelAppointment(bookedByUserID, payload);
+        await toggleTimeslot(userID, day, hour, minute);
         setMessage(["Appointment Canceled", "success"]);
         const data = await getSchedule(userID);
         setSchedule(data?.schedule || []);
