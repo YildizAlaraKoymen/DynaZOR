@@ -29,7 +29,7 @@ React Router – Client side routing [![React Router](https://img.shields.io/bad
 
 PostgreSQL [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#) 
 
-Deployment & Cloud
+### Deployment & Cloud
 
 Render – Backend hosting 
 
