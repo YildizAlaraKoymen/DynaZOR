@@ -1,6 +1,17 @@
 # DynaZOR
 ## DynaZOR is a cloud-based scheduling and rendezvous system designed to automate appointment management between users. The goal is to eliminate manual scheduling errors and reduce communication delays by using AWS services for storing data and notifications.
 
+## 📬 Contacts
+
+- 👩‍💻 **Yıldız Alara Köymen**  
+  📧 e245338@metu.edu.tr
+
+- 👨‍💻 **Burak Mirac Dumlu**  
+  📧 e258494@metu.edu.tr
+
+- 👨‍💻 **Emir Canlı**  
+  📧 e263754@metu.edu.tr
+
 ## Technologies:
 
 ### Backend:
