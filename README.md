@@ -1,5 +1,7 @@
 DynaZOR
 
+Deployed frontend of DynaZOR with the backend connection: https://dyna-zor.vercel.app
+
 fronted of DynaZOR
 This repository contains the frontend implementation of the DynaZOR Scheduling System in the frontend folder of the repository, developed as part of the CNG 495 Capstone Project (Fall 2025).
 The frontend is built using Vite, React, Tailwind CSS, and communicates with the backend through Axios based API functions.
