@@ -1,4 +1,3 @@
-DynaZOR
 DynaZOR is a cloud-based scheduling and rendezvous system designed to automate appointment management between users. The goal is to eliminate manual scheduling errors and reduce communication delays by using AWS services for storing data and notifications.
 
 Deployed frontend of DynaZOR with the backend connection: https://dyna-zor.vercel.app
