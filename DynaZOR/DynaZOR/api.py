@@ -32,7 +32,7 @@ class Register(Resource):
         try:
             full_name = f"{args['name']} {args['surname']}"
             db.createUser(full_name, args['username'], args['email'], args['password'])
-            sns_client.subscribe(TopicArn=TOPIC_ARN, Protocol="email", Endpoint=args['email']) # subscribing to SNS
+            sns_client.subscribe(TopicArn=TOPIC_ARN, Protocol="email", Endpoint=args['email'], Attributes={'FilterPolicy': f'{{"target_email": ["{args["email"]}"]}}'}) # subscribing to SNS
             # Get the newly created user's ID
             userID = db.getUserID(args['username'])
             
